@@ -3,6 +3,8 @@ package com.gl.springbootcrudjpaoracledemo.controller;
 import com.gl.springbootcrudjpaoracledemo.dao.UserDao;
 import com.gl.springbootcrudjpaoracledemo.model.User;
 import com.gl.springbootcrudjpaoracledemo.vo.GeneralDetailVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,48 +15,61 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@Api(value = "User Controller REST Endpoint",description="Shows the user info")
 public class UserController {
 
     @Autowired
     UserDao userDao;
 
+
+
     /**
      * Getting All User from the database
      * @return User list
      */
+    @ApiOperation(value = "Return All Users.")
     @GetMapping(value = "/users")
     public ResponseEntity<List<User>> getAllUsers(){
         log.debug("Getting All Users.");
         return ResponseEntity.status(HttpStatus.OK).body(userDao.findAll());
     }
 
+
+
     /**
      * Getting User By Id
      * @param take User Id as parameter
      * @return User
      */
+    @ApiOperation(value = "Getting User By Id.")
     @GetMapping(value = "/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         log.debug("Getting User By Id.");
         return ResponseEntity.status(HttpStatus.OK).body(userDao.findById(userId));
     }
 
+
+
     /**
      * Getting User By Email
      * @param take User Email as parameter
      * @return User
      */
-    @GetMapping(value = "/users/{email}")
+    @ApiOperation(value = "Getting User By Email.")
+    @GetMapping(value = "/users/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         log.debug("Getting User By Email.");
         return ResponseEntity.status(HttpStatus.OK).body(userDao.getUserByEmail(email));
     }
+
+
 
     /**
      *
      * @param This method take new user as parameter to store it
      * @return return that new stored user
      */
+    @ApiOperation(value = "Saving User.")
     @PostMapping(value = "/users")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         log.debug("Saving User.");
@@ -62,22 +77,28 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDao.save(user));
     }
 
+
+
     /**
      *
      * @param This method take updated user as parameter to store it
      * @return update user
      */
+    @ApiOperation(value = "Updating User.")
     @PutMapping(value = "/users/{userId}")
     public ResponseEntity<User> updateUser(@RequestBody GeneralDetailVO generalDetailVO, @PathVariable Long userId) {
         log.debug("Updating User.");
         return ResponseEntity.status(HttpStatus.OK).body(userDao.updateUser(generalDetailVO, userId));
     }
 
+
+
     /**
      *
      * @param This method take user as parameter for delete that user
      * @return success message as a 204 noContent status with exit code 1
      */
+    @ApiOperation(value = "Deleting User.")
     @DeleteMapping(value = "/users")
     public ResponseEntity<?> deleteUser(@RequestBody User user) {
         log.debug("Deleting User.");
@@ -85,11 +106,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
+
     /**
      *
      * @param This method take user id as parameter for delete that user by user id
      * @return success message as a 204 noContent status with exit code 1
      */
+    @ApiOperation(value = "Deleting User By Id.")
     @DeleteMapping(value = "/users/{userId}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long userId) {
         log.debug("Deleting User By Id.");
