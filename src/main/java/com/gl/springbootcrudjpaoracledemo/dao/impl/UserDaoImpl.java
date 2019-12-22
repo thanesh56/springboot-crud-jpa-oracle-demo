@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(Long id) {
         log.debug("Returning User  by id from DAO ");
-        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
+        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User of this Id: "+id+" Not Found"));
     }
 
     @Override

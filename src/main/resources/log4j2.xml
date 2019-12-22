@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+	
+	<Properties>
+		<Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p  [%t] %-5level %c{1}.%M:%L %m%n</Property>
+		<Property name="APP_LOG_ROOT">/opt/springboot_crud_jpa_oracle_demo/logs</Property>
+	</Properties>
+	
+	
+	<Appenders>
+		
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+
+
+
+		<RollingFile name="springLog"
+			fileName="${APP_LOG_ROOT}/spring.log"
+			filePattern="${APP_LOG_ROOT}/spring-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1" />
+		</RollingFile>
+			
+	
+
+		<RollingFile name="springboot_crud_jpa_oracle_demoAllLog"
+			fileName="${APP_LOG_ROOT}/springboot_crud_jpa_oracle_demo-all.log"
+			filePattern="${APP_LOG_ROOT}/springboot_crud_jpa_oracle_demo-all-%d{yyyy-MM-dd}-%i.log">
+			
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1" />
+		</RollingFile>
+		
+		
+
+
+	</Appenders>
+	
+	<Loggers>
+
+
+		<Logger name="com.gl.springbootcrudjpaoracledemo" level="DEBUG" additivity="false">
+			<AppenderRef ref="springboot_crud_jpa_oracle_demoAllLog" />
+
+		</Logger>
+
+
+	<!-- 	 <Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter"  additivity="false" >
+			<AppenderRef ref="mocAllLog" />
+		</Logger> -->
+		
+	    <Logger name="com.gl.springbootcrudjpaoracledemo.logger.CustomeRequestLoggingFilter"  additivity="false" >
+			<AppenderRef ref="springboot_crud_jpa_oracle_demoAllLog" />
+		</Logger>
+
+		<Logger name="org.springframework" additivity="false" level="DEBUG">
+			<AppenderRef ref="springLog" />
+
+        </Logger>
+		
+		
+		<Logger name="com.gl.springbootcrudjpaoracledemo.aspect"   additivity="false">
+		    <AppenderRef ref="springboot_crud_jpa_oracle_demoAllLog"  />
+
+		</Logger>	
+
+		
+		<Logger name="com.gl.springbootcrudjpaoracledemo.interceptor.LoggingRequestInterceptor"  additivity="false">
+
+		</Logger>
+		
+
+		<Logger name="com.gl.springbootcrudjpaoracledemo.logger.LoggableDispatcherServlet"  additivity="false">
+
+		</Logger>
+		
+
+		
+		<Root level="all">
+		</Root>
+		
+	</Loggers>
+</Configuration>
