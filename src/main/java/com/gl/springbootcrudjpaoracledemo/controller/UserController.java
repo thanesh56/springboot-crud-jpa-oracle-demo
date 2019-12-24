@@ -1,9 +1,11 @@
 package com.gl.springbootcrudjpaoracledemo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gl.springbootcrudjpaoracledemo.constant.SiteConstant;
 import com.gl.springbootcrudjpaoracledemo.dao.UserDao;
 import com.gl.springbootcrudjpaoracledemo.model.User;
 import com.gl.springbootcrudjpaoracledemo.response.ServerResponse;
+import com.gl.springbootcrudjpaoracledemo.response.UploadFileResponse;
 import com.gl.springbootcrudjpaoracledemo.vo.GeneralDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,10 +36,8 @@ public class UserController {
      */
     @ApiOperation(value = "Return All Users.")
     @GetMapping(value = SiteConstant.GET_ALL_USERS_URL)
-//    public ResponseEntity<List<User>> getAllUsers(){
     public ResponseEntity<ServerResponse> getAllUsers(){
         log.debug("Getting All Users.");
-//        return ResponseEntity.status(HttpStatus.OK).body(userDao.findAll());
         ResponseEntity<ServerResponse> serverResponseEntity;
         serverResponseEntity = new ResponseEntity(new ServerResponse(HttpStatus.OK.value()+"","Getted All Users",userDao.findAll(),HttpStatus.OK.name()),HttpStatus.OK);
         return serverResponseEntity;
@@ -50,7 +53,7 @@ public class UserController {
     @ApiOperation(value = "Getting User By Id.")
     @GetMapping(value = SiteConstant.GET_USER_BY_ID_URL)
     public ResponseEntity<ServerResponse> getUserById(@PathVariable Long userId) {
-        log.debug("Getting User By Id.");
+        log.info("Getting User By Id.");
         ResponseEntity<ServerResponse> serverResponseEntity;
             serverResponseEntity = new ResponseEntity(new ServerResponse(HttpStatus.OK.value()+"","Gotted user of id: "+userId+"",userDao.findById(userId),HttpStatus.OK.name()),HttpStatus.OK);
          return serverResponseEntity;
@@ -82,14 +85,37 @@ public class UserController {
      */
     @ApiOperation(value = "Saving User.")
     @PostMapping(value = SiteConstant.SAVE_USER_URL)
-    public ResponseEntity<ServerResponse> saveUser(@RequestBody User user) {
+    public ResponseEntity<ServerResponse> saveUser(@RequestParam("file") MultipartFile file,@RequestParam("jsonData") String jsonData) throws IOException {
         log.debug("Saving User.");
-        userDao.save(user);
-        //return ResponseEntity.status(HttpStatus.CREATED).body(userDao.save(user));
+        System.out.println("file:"+file);
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = objectMapper.readValue(jsonData,User.class);
+
+
         ResponseEntity<ServerResponse> serverResponseEntity;
-        serverResponseEntity = new ResponseEntity(new ServerResponse(HttpStatus.OK.value()+"","User Successfully Saved. ",userDao.save(user),HttpStatus.OK.name()),HttpStatus.OK);
+        serverResponseEntity = new ResponseEntity(new ServerResponse(HttpStatus.OK.value()+"","User Successfully Saved. ",userDao.save(file,user),HttpStatus.OK.name()),HttpStatus.OK);
         return serverResponseEntity;
     }
+
+
+   /* @PostMapping("/uploadFile")
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("jsonData") String jsonData) {
+        System.out.println("jsonData:-"+jsonData);
+        System.out.println("file-"+file);
+        //DBFile dbFile = dbFileStorageService.storeFile(file);
+
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/downloadFile/")
+//                .path(dbFile.getId())
+//                .toUriString();
+
+//        return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
+//                file.getContentType(), file.getSize());
+
+        return "Done";
+    }*/
 
 
 
@@ -144,4 +170,7 @@ public class UserController {
         return serverResponseEntity;
     }
 
+    public String getValueById(int i) {
+        return "done";
+    }
 }

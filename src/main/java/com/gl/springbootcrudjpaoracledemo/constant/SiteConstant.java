@@ -10,4 +10,18 @@ public class SiteConstant {
     public static final String DELETE_USER_URL = "/users";
     public static final String DELETE_USER_BY_ID_URL = "/users/{userId}";
 
+    public static final String UPLOAD_FILE_PATH= "/opt/springboot_crud_jpa_oracle_demo/images";
+    public static final String EXCEED_LIMIT = "Attachment size exceeds the allowable limit! (5MB)";
+    public static final String UPLOAD_FILE_SIZE_LIMIT = "5242880";
+
+    public static final String INVALID_REQUEST = "1400";
+
+    public static final String FAILED ="Internal Server Error";
+    public static final String FORBIDDEN_ERROR = "1403";
+
+
+
+
+
+
 }

@@ -7,7 +7,7 @@ public interface CrudDao<T, ID> {
 
     T findById(ID id);
 
-    T save(T newObject);
+    //T save(T newObject);
 
     void delete(T object);
 
