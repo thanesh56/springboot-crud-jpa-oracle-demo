@@ -3,6 +3,7 @@ package com.gl.springbootcrudjpaoracledemo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gl.springbootcrudjpaoracledemo.constant.SiteConstant;
 import com.gl.springbootcrudjpaoracledemo.dao.UserDao;
+import com.gl.springbootcrudjpaoracledemo.model.GeneralDetails;
 import com.gl.springbootcrudjpaoracledemo.model.User;
 import com.gl.springbootcrudjpaoracledemo.response.ServerResponse;
 import com.gl.springbootcrudjpaoracledemo.response.UploadFileResponse;
@@ -25,10 +26,9 @@ import java.util.List;
 @Api(value = "User Controller REST Endpoint",description="Shows the user info")
 public class UserController {
 
+
     @Autowired
     UserDao userDao;
-
-
 
     /**
      * Getting All User from the database
@@ -100,22 +100,6 @@ public class UserController {
     }
 
 
-   /* @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("jsonData") String jsonData) {
-        System.out.println("jsonData:-"+jsonData);
-        System.out.println("file-"+file);
-        //DBFile dbFile = dbFileStorageService.storeFile(file);
-
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/downloadFile/")
-//                .path(dbFile.getId())
-//                .toUriString();
-
-//        return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
-//                file.getContentType(), file.getSize());
-
-        return "Done";
-    }*/
 
 
 
