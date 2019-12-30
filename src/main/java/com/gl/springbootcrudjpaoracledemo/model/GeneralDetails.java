@@ -2,7 +2,6 @@ package com.gl.springbootcrudjpaoracledemo.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.MappedSuperclass;
 
